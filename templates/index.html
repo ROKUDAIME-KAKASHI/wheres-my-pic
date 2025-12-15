@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Where's My Pic?</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #cfcfe8;
+            margin-bottom: 40px;
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .search-box input {
+            width: 60%;
+            max-width: 500px;
+            padding: 14px;
+            border-radius: 8px 0 0 8px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-box button {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            background: #6c63ff;
+            color: white;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #554de6;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #ffffff;
+            color: #333;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card .info {
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            background: #f5f5f5;
+        }
+
+        .score {
+            font-weight: bold;
+            color: #6c63ff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #aaa;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Where’s My Pic?</h1>
+        <p class="subtitle">Semantic Image Search powered by CLIP + FAISS</p>
+
+        <form method="post" class="search-box">
+            <input type="text" name="query" placeholder="Describe the image you’re looking for…" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div class="results">
+            {% for img, score in results %}
+                <div class="card">
+                    <img src="{{ img }}" alt="Result Image">
+                    <div class="info">
+                        Similarity: <span class="score">{{ "%.3f"|format(score) }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <footer>
+            Built with CLIP · FAISS · Flask
+        </footer>
+    </div>
+</body>
+</html>
